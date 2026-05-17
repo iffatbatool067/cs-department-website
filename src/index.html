@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Department of Computer Science</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── CSS Variables ─────────────────────────────────── */
+    :root {
+      --navy:      #0a1628;
+      --navy-mid:  #112240;
+      --teal:      #0b8e8e;
+      --teal-lt:   #12bfbf;
+      --gold:      #c9a84c;
+      --gold-lt:   #f0cb6e;
+      --off-white: #f4f1eb;
+      --text:      #1c1c2e;
+      --muted:     #5a6070;
+      --border:    rgba(201,168,76,.25);
+    }
+
+    /* ─── Reset ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Utility ────────────────────────────────────────── */
+    .container { width: min(1200px, 92vw); margin-inline: auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+    /* ─── NAVBAR ─────────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,22,40,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    #navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.4); }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .nav-logo {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--teal), var(--gold));
+      border-radius: 8px;
+      display: grid; place-items: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px; color: #fff; font-weight: 700;
+    }
+    .nav-name {
+      display: flex; flex-direction: column; line-height: 1.15;
+    }
+    .nav-name strong {
+      font-size: 14px; font-weight: 600; color: #fff; letter-spacing: .03em;
+    }
+    .nav-name span {
+      font-size: 11px; color: var(--teal-lt); letter-spacing: .08em; text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 4px; list-style: none;
+    }
+    .nav-links a {
+      padding: 6px 14px; border-radius: 6px;
+      font-size: 13.5px; font-weight: 500; color: rgba(255,255,255,.8);
+      transition: color .2s, background .2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--gold-lt); background: rgba(201,168,76,.12);
+    }
+    .nav-cta {
+      padding: 8px 20px !important;
+      background: var(--teal) !important;
+      color: #fff !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--teal-lt) !important; color: var(--navy) !important; }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(11,142,142,.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 20% 70%, rgba(201,168,76,.12) 0%, transparent 55%),
+        var(--navy);
+      display: flex; align-items: center;
+      padding-top: 68px;
+      position: relative; overflow: hidden;
+    }
+    /* Grid overlay */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      padding-block: 80px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--teal-lt);
+      background: rgba(11,142,142,.12);
+      border: 1px solid rgba(11,142,142,.3);
+      border-radius: 20px; padding: 5px 14px; margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal-lt); animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .5; transform: scale(1.4); }
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 5vw, 62px);
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold), var(--teal-lt));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 16.5px; line-height: 1.75;
+      color: rgba(255,255,255,.65);
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: 10px;
+      font-size: 14.5px; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), var(--teal-lt));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(11,142,142,.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(11,142,142,.55); }
+    .btn-outline {
+      border: 1.5px solid var(--border);
+      color: rgba(255,255,255,.85);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-lt); background: rgba(201,168,76,.06); }
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 48px;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 2px; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px; color: var(--gold-lt); line-height: 1;
+    }
+    .stat-label { font-size: 12px; color: rgba(255,255,255,.45); letter-spacing: .06em; text-transform: uppercase; }
+
+    /* Hero visual side */
+    .hero-visual {
+      position: relative; display: flex; justify-content: center; align-items: center;
+    }
+    .hero-card-wrap {
+      position: relative; width: 360px; height: 420px;
+    }
+    .hero-card {
+      position: absolute;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      padding: 24px;
+    }
+    .hc-main {
+      inset: 0; z-index: 3;
+      background: linear-gradient(160deg, rgba(17,34,64,.95), rgba(10,22,40,.98));
+      border-color: rgba(201,168,76,.25);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .hc-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,168,76,.1);
+      border: 1px solid rgba(201,168,76,.2);
+      border-radius: 4px; padding: 3px 10px;
+      width: fit-content;
+    }
+    .hc-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; line-height: 1.25; }
+    .hc-meta { font-size: 12.5px; color: rgba(255,255,255,.45); }
+    .hc-divider { border: none; border-top: 1px solid rgba(255,255,255,.08); }
+    .hc-row { display: flex; justify-content: space-between; align-items: center; }
+    .hc-label { font-size: 12px; color: rgba(255,255,255,.4); }
+    .hc-val { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); }
+    .hc-bar-wrap { height: 6px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; }
+    .hc-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--teal), var(--gold)); animation: growBar 2s ease forwards; }
+    @keyframes growBar { from { width: 0; } }
+    .hc-icon-row { display: flex; gap: 8px; margin-top: auto; }
+    .hc-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      display: grid; place-items: center; font-size: 15px;
+    }
+    .hc-float-1 {
+      width: 160px; height: 100px;
+      top: -20px; right: -30px; z-index: 4;
+      background: rgba(11,142,142,.15);
+      border-color: rgba(11,142,142,.3);
+      display: flex; flex-direction: column; justify-content: center; gap: 6px;
+      animation: float1 5s ease-in-out infinite;
+    }
+    .hc-float-2 {
+      width: 140px; height: 90px;
+      bottom: -15px; left: -30px; z-index: 4;
+      background: rgba(201,168,76,.1);
+      border-color: rgba(201,168,76,.25);
+      display: flex; flex-direction: column; justify-content: center; gap: 6px;
+      animation: float2 6s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+    .fl-label { font-size: 10px; color: rgba(255,255,255,.4); letter-spacing: .08em; text-transform: uppercase; }
+    .fl-val { font-size: 18px; font-family: 'DM Serif Display', serif; color: #fff; }
+    .fl-sub { font-size: 10.5px; color: var(--teal-lt); }
+    .fl-sub2 { font-size: 10.5px; color: var(--gold); }
+
+    /* ─── SECTION SHARED ─────────────────────────────────── */
+    section { padding-block: 90px; }
+    .section-eyebrow {
+      font-size: 11.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.15; color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .section-title em { font-style: italic; color: var(--teal); }
+    .section-lead {
+      font-size: 16px; line-height: 1.8;
+      color: var(--muted); max-width: 560px;
+    }
+
+    /* ─── MISSION ────────────────────────────────────────── */
+    #mission { background: var(--off-white); }
+    .mission-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .mission-quote {
+      position: relative; padding: 36px 36px 36px 48px;
+      background: var(--navy); border-radius: 16px;
+      color: rgba(255,255,255,.85);
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px; line-height: 1.65; font-style: italic;
+    }
+    .mission-quote::before {
+      content: '"';
+      position: absolute; top: -10px; left: 22px;
+      font-size: 100px; line-height: 1;
+      color: var(--gold); opacity: .3; font-family: 'DM Serif Display', serif;
+    }
+    .mission-quote footer {
+      margin-top: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-style: normal; font-weight: 600;
+      color: var(--gold);
+    }
+    .mission-pillars { display: flex; flex-direction: column; gap: 24px; }
+    .pillar {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 20px 24px; border-radius: 12px;
+      border: 1px solid transparent;
+      transition: border-color .25s, box-shadow .25s, background .25s;
+    }
+    .pillar:hover {
+      background: #fff;
+      border-color: var(--border);
+      box-shadow: 0 4px 24px rgba(0,0,0,.06);
+    }
+    .pillar-icon {
+      min-width: 44px; height: 44px; border-radius: 10px;
+      display: grid; place-items: center; font-size: 20px;
+    }
+    .pi-teal { background: rgba(11,142,142,.12); }
+    .pi-gold { background: rgba(201,168,76,.12); }
+    .pi-navy { background: rgba(10,22,40,.08); }
+    .pillar-body h3 {
+      font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 6px;
+    }
+    .pillar-body p { font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+    /* ─── HIGHLIGHTS ─────────────────────────────────────── */
+    #highlights { background: var(--navy); }
+    #highlights .section-title { color: #fff; }
+    #highlights .section-lead { color: rgba(255,255,255,.55); }
+    #highlights .section-eyebrow { color: var(--teal-lt); }
+    .highlights-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: end; margin-bottom: 56px;
+    }
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .hl-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px; padding: 28px;
+      transition: border-color .25s, background .25s, transform .25s;
+      position: relative; overflow: hidden;
+    }
+    .hl-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      opacity: 0; transition: opacity .25s;
+    }
+    .hl-card:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.07); transform: translateY(-4px); }
+    .hl-card:hover::before { opacity: 1; }
+    .hl-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: grid; place-items: center; font-size: 22px;
+      margin-bottom: 20px;
+    }
+    .hi-teal  { background: rgba(11,142,142,.2); }
+    .hi-gold  { background: rgba(201,168,76,.15); }
+    .hi-white { background: rgba(255,255,255,.08); }
+    .hl-card h3 {
+      font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 10px;
+    }
+    .hl-card p { font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,.5); }
+    .hl-card-wide {
+      grid-column: span 2;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      align-items: center;
+    }
+    .hl-wide-text h3 { font-family: 'DM Serif Display', serif; font-size: 24px; color: #fff; margin-bottom: 10px; }
+    .hl-wide-text p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,.5); }
+    .hl-badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .hl-badge {
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 11.5px; font-weight: 600;
+      background: rgba(11,142,142,.15); border: 1px solid rgba(11,142,142,.25); color: var(--teal-lt);
+    }
+    .hl-badge.gold { background: rgba(201,168,76,.12); border-color: rgba(201,168,76,.25); color: var(--gold); }
+
+    /* Mini bar chart */
+    .mini-chart { display: flex; align-items: flex-end; gap: 6px; height: 70px; }
+    .mc-bar {
+      flex: 1; border-radius: 4px 4px 0 0;
+      background: linear-gradient(to top, var(--teal), var(--teal-lt));
+      animation: growUp 1.2s ease both;
+    }
+    @keyframes growUp { from { height: 0; } }
+
+    /* ─── QUICK LINKS ─────────────────────────────────────── */
+    #quicklinks { background: var(--off-white); }
+    .ql-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .ql-card {
+      background: #fff; border: 1px solid rgba(0,0,0,.07);
+      border-radius: 16px; padding: 28px 24px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: box-shadow .25s, transform .25s, border-color .25s;
+      text-decoration: none; color: inherit;
+    }
+    .ql-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,.1);
+      transform: translateY(-4px);
+      border-color: var(--teal);
+    }
+    .ql-icon {
+      width: 50px; height: 50px; border-radius: 12px;
+      display: grid; place-items: center; font-size: 22px;
+    }
+    .ql-teal  { background: rgba(11,142,142,.1); }
+    .ql-gold  { background: rgba(201,168,76,.12); }
+    .ql-navy  { background: rgba(10,22,40,.08); }
+    .ql-green { background: rgba(34,197,94,.1); }
+    .ql-card h3 { font-size: 16px; font-weight: 600; color: var(--navy); }
+    .ql-card p  { font-size: 13.5px; line-height: 1.65; color: var(--muted); flex: 1; }
+    .ql-arrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; color: var(--teal);
+      margin-top: 4px;
+    }
+    .ql-arrow svg { transition: transform .2s; }
+    .ql-card:hover .ql-arrow svg { transform: translateX(4px); }
+
+    /* ─── ANNOUNCEMENTS ───────────────────────────────────── */
+    #news { background: #fff; }
+    .news-inner {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: start;
+    }
+    .news-items { display: flex; flex-direction: column; gap: 0; }
+    .news-item {
+      display: flex; gap: 18px;
+      padding: 22px 0; border-bottom: 1px solid rgba(0,0,0,.07);
+      transition: background .2s;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-date {
+      min-width: 54px; display: flex; flex-direction: column; align-items: center;
+      padding-top: 2px;
+    }
+    .news-day {
+      font-family: 'DM Serif Display', serif; font-size: 26px;
+      color: var(--navy); line-height: 1;
+    }
+    .news-mon {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--teal);
+    }
+    .news-divider {
+      width: 1px; background: rgba(0,0,0,.08); flex-shrink: 0; margin-inline: 4px;
+    }
+    .news-body h4 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .news-body p  { font-size: 13.5px; line-height: 1.65; color: var(--muted); }
+    .news-tag {
+      display: inline-block; margin-top: 8px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 2px 10px; border-radius: 4px;
+    }
+    .tag-event   { background: rgba(11,142,142,.1);  color: var(--teal); }
+    .tag-award   { background: rgba(201,168,76,.12); color: var(--gold); }
+    .tag-seminar { background: rgba(10,22,40,.08);   color: var(--navy); }
+    .tag-grant   { background: rgba(34,197,94,.1);   color: #16a34a; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding-block: 60px 28px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 14px; }
+    .footer-logo {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .footer-logo-box {
+      width: 36px; height: 36px; border-radius: 7px;
+      background: linear-gradient(135deg, var(--teal), var(--gold));
+      display: grid; place-items: center;
+      font-family: 'DM Serif Display', serif; font-size: 16px; color: #fff;
+    }
+    .footer-logo-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .footer-tagline { font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,.4); max-width: 280px; }
+    .footer-contact { display: flex; flex-direction: column; gap: 8px; }
+    .footer-contact a {
+      font-size: 12.5px; color: rgba(255,255,255,.45);
+      transition: color .2s;
+      display: flex; gap: 8px; align-items: center;
+    }
+    .footer-contact a:hover { color: var(--teal-lt); }
+    .footer-col h4 {
+      font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.3); margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { font-size: 13.5px; color: rgba(255,255,255,.55); transition: color .2s; }
+    .footer-col ul a:hover { color: var(--gold-lt); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,.3); }
+    .footer-bottom-links { display: flex; gap: 20px; }
+    .footer-bottom-links a { font-size: 12px; color: rgba(255,255,255,.3); transition: color .2s; }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,.6); }
+
+    /* ─── SCROLL ANIMATIONS ──────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner        { grid-template-columns: 1fr; }
+      .hero-visual       { display: none; }
+      .mission-grid      { grid-template-columns: 1fr; }
+      .highlights-grid   { grid-template-columns: 1fr; }
+      .hl-card-wide      { grid-column: span 1; grid-template-columns: 1fr; }
+      .ql-grid           { grid-template-columns: 1fr 1fr; }
+      .news-inner        { grid-template-columns: 1fr; }
+      .footer-grid       { grid-template-columns: 1fr 1fr; }
+      .highlights-head   { grid-template-columns: 1fr; }
+      .nav-links         { display: none; }
+    }
+    @media (max-width: 560px) {
+      .ql-grid  { grid-template-columns: 1fr; }
+      .hero-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ──────────────────────────────────────── -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="#" class="nav-brand" aria-label="CS Department home">
+      <div class="nav-logo">CS</div>
+      <div class="nav-name">
+        <strong>Dept. of Computer Science</strong>
+        <span>State University</span>
+      </div>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="courses.html">Courses</a></li>
+      <li><a href="faculty.html">Faculty</a></li>
+      <li><a href="admissions.html">Admissions</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+<section id="hero" aria-labelledby="hero-title">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Ranked #1 in Region · Est. 1984</div>
+      <h1 class="hero-title" id="hero-title">
+        Shaping the<br><em>Future of</em><br>Computing
+      </h1>
+      <p class="hero-sub">
+        A world-class Computer Science department committed to rigorous education, cutting-edge research, and developing the next generation of innovators and problem-solvers.
+      </p>
+      <div class="hero-actions">
+        <a href="admissions.html" class="btn btn-primary">
+          Apply Now
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="courses.html" class="btn btn-outline">Explore Programs</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">1,200+</span>
+          <span class="stat-label">Students</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">48</span>
+          <span class="stat-label">Faculty</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">95%</span>
+          <span class="stat-label">Employment</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">120+</span>
+          <span class="stat-label">Research Papers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative card block -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-card-wrap">
+        <div class="hero-card hc-main">
+          <div class="hc-tag">Spring 2025 Admissions</div>
+          <div class="hc-title">BSc Computer Science</div>
+          <div class="hc-meta">4-Year Undergraduate Program</div>
+          <hr class="hc-divider" />
+          <div class="hc-row">
+            <span class="hc-label">Applications Received</span>
+            <span class="hc-val">3,847</span>
+          </div>
+          <div class="hc-row">
+            <span class="hc-label">Seats Available</span>
+            <span class="hc-val">120</span>
+          </div>
+          <div>
+            <div class="hc-row" style="margin-bottom:6px">
+              <span class="hc-label">Seats Filled</span>
+              <span class="hc-val">78 / 120</span>
+            </div>
+            <div class="hc-bar-wrap">
+              <div class="hc-bar" style="width:65%"></div>
+            </div>
+          </div>
+          <div class="hc-icon-row">
+            <div class="hc-icon pi-teal" title="AI & ML">🤖</div>
+            <div class="hc-icon pi-gold" title="Networks">🌐</div>
+            <div class="hc-icon pi-navy" title="Security">🔐</div>
+            <div class="hc-icon pi-teal" title="Data Science">📊</div>
+          </div>
+        </div>
+        <div class="hero-card hc-float-1">
+          <div class="fl-label">Research Output</div>
+          <div class="fl-val">120+</div>
+          <div class="fl-sub">Papers this year ↑ 18%</div>
+        </div>
+        <div class="hero-card hc-float-2">
+          <div class="fl-label">Graduate Placement</div>
+          <div class="fl-val">95%</div>
+          <div class="fl-sub2">within 6 months ⬆</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MISSION ─────────────────────────────────────── -->
+<section id="mission" aria-labelledby="mission-title">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="reveal">
+        <div class="mission-quote">
+          We believe the most powerful force for human progress is computing. Our mission is to cultivate brilliant minds, inspire bold research, and send graduates out into the world ready to build a better one.
+          <footer>— Dr. Amna Khalid, Department Chair</footer>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="section-eyebrow">Our Mission</div>
+        <h2 class="section-title" id="mission-title">Built on Three <em>Core Pillars</em></h2>
+        <div class="mission-pillars" style="margin-top:28px">
+          <div class="pillar">
+            <div class="pillar-icon pi-teal">🎓</div>
+            <div class="pillar-body">
+              <h3>Academic Excellence</h3>
+              <p>Rigorous, industry-aligned curricula taught by internationally recognized faculty ensure graduates are highly sought after.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon pi-gold">🔬</div>
+            <div class="pillar-body">
+              <h3>Cutting-Edge Research</h3>
+              <p>From AI and cybersecurity to distributed systems, our labs tackle tomorrow's hardest problems today.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon pi-navy">🤝</div>
+            <div class="pillar-body">
+              <h3>Community & Inclusion</h3>
+              <p>A welcoming, diverse environment where every student has the support and resources to thrive.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HIGHLIGHTS ──────────────────────────────────── -->
+<section id="highlights" aria-labelledby="highlights-title">
+  <div class="container">
+    <div class="highlights-head reveal">
+      <div>
+        <div class="section-eyebrow">Department Highlights</div>
+        <h2 class="section-title" id="highlights-title">Why Choose <em>Our Department?</em></h2>
+      </div>
+      <p class="section-lead">From state-of-the-art labs to a thriving alumni network spanning 40+ countries, we offer an unmatched environment for growth.</p>
+    </div>
+    <div class="highlights-grid">
+      <div class="hl-card reveal">
+        <div class="hl-icon hi-teal">🤖</div>
+        <h3>AI & Machine Learning Lab</h3>
+        <p>Equipped with GPU clusters and access to leading AI frameworks. Students collaborate on live research projects alongside faculty.</p>
+      </div>
+      <div class="hl-card reveal">
+        <div class="hl-icon hi-gold">🏆</div>
+        <h3>Award-Winning Programs</h3>
+        <p>Consistently ranked in the top 5 nationally, our programs earn recognition from HEC and international accreditation bodies.</p>
+      </div>
+      <div class="hl-card hl-card-wide reveal">
+        <div class="hl-wide-text">
+          <h3>Strong Industry Connections</h3>
+          <p>Our graduates work at Google, Microsoft, Arbisoft, Systems Ltd, and hundreds of local and global tech companies. The department hosts annual career fairs, hackathons, and industry speaker series.</p>
+          <div class="hl-badge-row">
+            <span class="hl-badge">Google</span>
+            <span class="hl-badge">Microsoft</span>
+            <span class="hl-badge gold">Arbisoft</span>
+            <span class="hl-badge">Systems Ltd</span>
+            <span class="hl-badge gold">NUST Partners</span>
+          </div>
+        </div>
+        <div>
+          <div class="hc-label" style="color:rgba(255,255,255,.35);font-size:11px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Placement Rate (last 5 years)</div>
+          <div class="mini-chart" aria-label="Placement rate chart">
+            <div class="mc-bar" style="height:55%; animation-delay:.1s" title="2021: 88%"></div>
+            <div class="mc-bar" style="height:65%; animation-delay:.2s" title="2022: 90%"></div>
+            <div class="mc-bar" style="height:72%; animation-delay:.3s" title="2023: 92%"></div>
+            <div class="mc-bar" style="height:84%; animation-delay:.4s" title="2024: 94%"></div>
+            <div class="mc-bar" style="height:95%; animation-delay:.5s; background:linear-gradient(to top,var(--gold),var(--gold-lt))" title="2025: 95%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px">
+            <span style="font-size:10px;color:rgba(255,255,255,.3)">2021</span>
+            <span style="font-size:10px;color:var(--gold)">2025: 95%</span>
+          </div>
+        </div>
+      </div>
+      <div class="hl-card reveal">
+        <div class="hl-icon hi-white">🌍</div>
+        <h3>Global Alumni Network</h3>
+        <p>Over 8,000 alumni across 40+ countries, many in senior engineering and leadership roles at top-tier organizations.</p>
+      </div>
+      <div class="hl-card reveal">
+        <div class="hl-icon hi-teal">📡</div>
+        <h3>Research Grants & Funding</h3>
+        <p>The department secured over PKR 50M in research grants this year, funding student projects and international collaborations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── QUICK LINKS ─────────────────────────────────── -->
+<section id="quicklinks" aria-labelledby="ql-title">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:48px" class="reveal">
+      <div class="section-eyebrow">Explore the Department</div>
+      <h2 class="section-title" id="ql-title">Everything You <em>Need to Know</em></h2>
+    </div>
+    <div class="ql-grid">
+      <a href="courses.html" class="ql-card reveal">
+        <div class="ql-icon ql-teal">📚</div>
+        <h3>Courses & Programs</h3>
+        <p>Browse our full catalogue of undergraduate and postgraduate courses, from foundations to advanced electives.</p>
+        <span class="ql-arrow">View Courses <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="faculty.html" class="ql-card reveal">
+        <div class="ql-icon ql-navy">👨‍🏫</div>
+        <h3>Faculty Profiles</h3>
+        <p>Meet our dedicated professors and researchers — their specializations, publications, and office hours.</p>
+        <span class="ql-arrow">Meet Faculty <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="admissions.html" class="ql-card reveal">
+        <div class="ql-icon ql-gold">🎓</div>
+        <h3>Admissions</h3>
+        <p>Learn about entry requirements, application deadlines, and the degree programs we offer for new students.</p>
+        <span class="ql-arrow">Apply Now <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="contact.html" class="ql-card reveal">
+        <div class="ql-icon ql-green">✉️</div>
+        <h3>Contact & Location</h3>
+        <p>Reach our administrative office, find our location on campus, and send us a message directly.</p>
+        <span class="ql-arrow">Get in Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ANNOUNCEMENTS ───────────────────────────────── -->
+<section id="news" aria-labelledby="news-title">
+  <div class="container">
+    <div class="news-inner">
+      <div class="reveal">
+        <div class="section-eyebrow">Latest News</div>
+        <h2 class="section-title" id="news-title">Department <em>Announcements</em></h2>
+        <p class="section-lead" style="margin-bottom:28px">Stay informed about events, seminars, and achievements from our department community.</p>
+        <a href="contact.html" class="btn btn-primary" style="width:fit-content">Subscribe to Updates</a>
+      </div>
+      <div class="news-items reveal">
+        <div class="news-item">
+          <div class="news-date"><span class="news-day">18</span><span class="news-mon">May</span></div>
+          <div class="news-divider"></div>
+          <div class="news-body">
+            <h4>Annual Tech Fest 2025 Registration Open</h4>
+            <p>Students and faculty are invited to participate in this year's flagship technology exhibition and competition event.</p>
+            <span class="news-tag tag-event">Event</span>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-date"><span class="news-day">12</span><span class="news-mon">May</span></div>
+          <div class="news-divider"></div>
+          <div class="news-body">
+            <h4>Dr. Sana Mirza Receives National Research Award</h4>
+            <p>Congratulations to Dr. Mirza on receiving the HEC Outstanding Researcher Award for 2024–25 in AI and NLP.</p>
+            <span class="news-tag tag-award">Award</span>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-date"><span class="news-day">05</span><span class="news-mon">May</span></div>
+          <div class="news-divider"></div>
+          <div class="news-body">
+            <h4>Guest Seminar: Generative AI in Industry — Google Pakistan</h4>
+            <p>A special seminar featuring senior engineers from Google Pakistan on real-world applications of generative AI.</p>
+            <span class="news-tag tag-seminar">Seminar</span>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-date"><span class="news-day">28</span><span class="news-mon">Apr</span></div>
+          <div class="news-divider"></div>
+          <div class="news-body">
+            <h4>Department Secures PKR 12M Research Grant from HEC</h4>
+            <p>A new HEC NRPU grant will fund a 3-year cybersecurity research project led by Dr. Usman Akhtar's team.</p>
+            <span class="news-tag tag-grant">Grant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────── -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-box">CS</div>
+          <span class="footer-logo-name">Dept. of Computer Science</span>
+        </div>
+        <p class="footer-tagline">Advancing the science and art of computing through education, research, and service since 1984.</p>
+        <div class="footer-contact">
+          <a href="mailto:cs@university.edu.pk">📧 cs@university.edu.pk</a>
+          <a href="tel:+924235880001">📞 +92 42 3588 0001</a>
+          <a href="#">📍 Block C, Engineering Campus, Lahore</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Academics</h4>
+        <ul>
+          <li><a href="courses.html">Course Catalogue</a></li>
+          <li><a href="courses.html">BSc Programs</a></li>
+          <li><a href="courses.html">MSc Programs</a></li>
+          <li><a href="courses.html">PhD Programs</a></li>
+          <li><a href="courses.html">Semester Schedule</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Department</h4>
+        <ul>
+          <li><a href="faculty.html">Faculty</a></li>
+          <li><a href="#">Research Labs</a></li>
+          <li><a href="#">Publications</a></li>
+          <li><a href="#">Alumni</a></li>
+          <li><a href="#">Industry Partners</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Student Info</h4>
+        <ul>
+          <li><a href="admissions.html">How to Apply</a></li>
+          <li><a href="admissions.html">Scholarships</a></li>
+          <li><a href="#">Student Portal</a></li>
+          <li><a href="contact.html">Contact Office</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Department of Computer Science, State University. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Accessibility</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i * 0.07) + 's';
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

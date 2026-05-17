@@ -1,0 +1,60 @@
+name: CI — Lint & Build
+
+on:
+  push:
+    branches: [develop, release/*, main]
+  pull_request:
+    branches: [develop, release/*, main]
+
+jobs:
+  # ─── Job 1: HTML & CSS Lint ─────────────────────────────
+  lint:
+    name: HTML & CSS Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run HTML lint
+        run: npm run lint:html
+
+      - name: Run CSS lint
+        run: npm run lint:css
+
+  # ─── Job 2: Docker Build ────────────────────────────────
+  docker-build:
+    name: Docker Image Build
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push — CI only)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: cs-dept-website:ci-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test Docker image
+        run: |
+          docker run -d --name test-container -p 8080:80 cs-dept-website:ci-${{ github.sha }}
+          sleep 5
+          curl -f http://localhost:8080/ || exit 1
+          docker stop test-container
+          docker rm test-container

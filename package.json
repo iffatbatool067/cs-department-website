@@ -1,0 +1,16 @@
+{
+  "name": "cs-department-website",
+  "version": "1.0.0",
+  "description": "University Computer Science Department Static Website",
+  "scripts": {
+    "lint": "npm run lint:html && npm run lint:css",
+    "lint:html": "htmlhint src/**/*.html",
+    "lint:css": "stylelint src/**/*.css",
+    "lint:fix": "stylelint src/**/*.css --fix"
+  },
+  "devDependencies": {
+    "htmlhint": "^1.1.4",
+    "stylelint": "^16.3.1",
+    "stylelint-config-standard": "^36.0.0"
+  }
+}
